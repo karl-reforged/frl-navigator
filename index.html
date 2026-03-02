@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRL Navigator — NCC 2022 Deemed-to-Satisfy Reference</title>
+<style>
+  @font-face {
+    font-family: 'Omnes';
+    src: local('Omnes Semibold'), local('Omnes-Semibold');
+    font-weight: 600;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Omnes';
+    src: local('Omnes Light'), local('Omnes-Light');
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  :root {
+    --bg: #0d0b14;
+    --surface: #171421;
+    --surface-2: #1f1b2e;
+    --border: #2d2845;
+    --text: #e8e6f0;
+    --text-dim: #9490a8;
+    --accent: #5636d1;
+    --accent-light: #7b5ef0;
+    --accent-dim: #3d2696;
+    --highlight: #F08821;
+    --highlight-dim: #c06a14;
+    --warning: #F08821;
+    --danger: #e84855;
+    --success: #3dd68c;
+    --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    --sans: 'Omnes', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  /* Draft banner */
+  .draft-banner {
+    background: rgba(232, 72, 85, 0.12);
+    border: 1px solid rgba(232, 72, 85, 0.4);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .draft-banner-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--danger);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+  }
+
+  .draft-banner p {
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+  }
+
+  .draft-banner .version-stamp {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-top: 0.4rem;
+    opacity: 0.7;
+  }
+
+  header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+  }
+
+  .brand-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .brand-mark {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .brand-tool {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-light);
+    font-weight: 600;
+  }
+
+  .brand-tagline {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  header h1 .h1-highlight {
+    color: var(--highlight);
+  }
+
+  header p {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+
+  /* Form */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+
+  .form-group select, .form-group input[type="number"] {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 0.9rem;
+    font-family: var(--sans);
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .form-group select:focus, .form-group input:focus {
+    outline: none;
+    border-color: var(--accent-light);
+    box-shadow: 0 0 0 2px rgba(86, 54, 209, 0.2);
+  }
+
+  .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b8fa3' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    padding-right: 2.2rem;
+  }
+
+  .toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-top: 0.4rem;
+  }
+
+  .toggle {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    cursor: pointer;
+  }
+
+  .toggle input { opacity: 0; width: 0; height: 0; }
+
+  .toggle .slider {
+    position: absolute;
+    inset: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: 0.2s;
+  }
+
+  .toggle .slider::before {
+    content: '';
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background: var(--text-dim);
+    border-radius: 50%;
+    transition: 0.2s;
+  }
+
+  .toggle input:checked + .slider { background: var(--accent-dim); border-color: var(--accent-light); }
+  .toggle input:checked + .slider::before { transform: translateX(20px); background: var(--accent-light); }
+
+  .toggle-label { font-size: 0.85rem; color: var(--text-dim); }
+
+  /* Derived info bar */
+  .derived-info {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 0.8rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 2rem;
+    font-size: 0.85rem;
+  }
+
+  .derived-info .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .derived-info .tag-label { color: var(--text-dim); }
+
+  .derived-info .tag-value {
+    font-weight: 600;
+    font-family: var(--mono);
+    color: var(--accent-light);
+  }
+
+  /* Results table */
+  .results-section { margin-bottom: 2rem; }
+
+  .results-section h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .results-label {
+    display: inline-block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--danger);
+    font-weight: 600;
+    background: rgba(232, 72, 85, 0.1);
+    border: 1px solid rgba(232, 72, 85, 0.3);
+    border-radius: 3px;
+    padding: 0.15rem 0.5rem;
+    margin-left: 0.6rem;
+    vertical-align: middle;
+  }
+
+  .frl-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+
+  .frl-table th {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+
+  .frl-table td {
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .frl-table tr:hover td { background: var(--surface); }
+
+  .frl-table .table-group-header td {
+    padding: 0.5rem 0.8rem;
+    background: var(--surface-2);
+    font-weight: 600;
+    font-size: 0.78rem;
+    color: var(--accent-light);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .frl-table .location-row td:first-child {
+    padding-left: 2rem;
+  }
+
+  .frl-value {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .frl-value.has-rating { color: var(--highlight); }
+  .frl-value.no-rating { color: var(--text-dim); }
+
+  .clause-chain {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.3rem;
+    line-height: 1.4;
+  }
+
+  .clause-chain .chain-step { color: var(--text-dim); }
+  .clause-chain .chain-arrow { color: var(--border); margin: 0 0.2rem; }
+
+  .concession-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    background: rgba(245, 166, 35, 0.1);
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    border-radius: 3px;
+    color: var(--warning);
+    margin-top: 0.3rem;
+  }
+
+  /* Judgement boundaries */
+  .judgement-section {
+    padding: 1.2rem;
+    background: var(--surface);
+    border: 1px solid rgba(245, 166, 35, 0.3);
+    border-left: 3px solid var(--warning);
+    border-radius: 6px;
+    margin-bottom: 2rem;
+  }
+
+  .judgement-section h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--warning);
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+  }
+
+  .judgement-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .judgement-section li {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    padding: 0.3rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+
+  .judgement-section li::before {
+    content: '!';
+    position: absolute;
+    left: 0;
+    color: var(--warning);
+    font-weight: 700;
+    font-size: 0.75rem;
+  }
+
+  /* Notes section */
+  .notes-section {
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 2rem;
+  }
+
+  .notes-section h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
+
+  .notes-section li {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    padding: 0.2rem 0;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-dim);
+  }
+
+  .empty-state p { font-size: 0.9rem; }
+
+  /* Footer */
+  footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  footer a { color: var(--accent-light); text-decoration: none; }
+
+  /* Print styles */
+  @media print {
+    :root {
+      --bg: #fff;
+      --surface: #f8f7fb;
+      --surface-2: #f0eef5;
+      --border: #ddd;
+      --text: #1a1a1a;
+      --text-dim: #666;
+      --accent: #5636d1;
+      --accent-light: #5636d1;
+      --highlight: #d06a10;
+      --warning: #b45309;
+      --success: #059669;
+      --danger: #c0392b;
+    }
+    body { font-size: 10pt; }
+    .container { max-width: 100%; padding: 0; }
+    .form-grid { display: none; }
+    .brand-tagline { display: none; }
+    .brand-logo { filter: brightness(0); }
+    .derived-info { break-inside: avoid; }
+    .frl-table { font-size: 9pt; }
+    .judgement-section, .notes-section { break-inside: avoid; }
+    .draft-banner { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="draft-banner">
+    <div class="draft-banner-title">Draft — For Review Only</div>
+    <p>This tool has not been reviewed or verified by a fire safety engineer. It is shared for the purpose of testing, feedback, and concept validation only. Known limitations exist — see footer for details.</p>
+    <div class="version-stamp" id="version-stamp"></div>
+  </div>
+
+  <header>
+    <div class="brand-bar">
+      <div class="brand-mark">
+        <span class="brand-tool">Fire Engineering Tools</span>
+      </div>
+      <span class="brand-tagline">Deemed-to-Satisfy Reference</span>
+    </div>
+    <h1><span class="h1-highlight">FRL</span> Navigator</h1>
+    <p>NCC 2022 Deemed-to-Satisfy fire resistance levels — Specification 5, Volume One</p>
+  </header>
+
+  <div class="form-grid">
+    <div class="form-group">
+      <label for="building-class">Building Class</label>
+      <select id="building-class">
+        <option value="">Select class...</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="rise">Rise in Storeys</label>
+      <input type="number" id="rise" min="1" max="99" placeholder="e.g. 4">
+    </div>
+    <div class="form-group">
+      <label for="distance">Fire-Source Distance</label>
+      <select id="distance">
+        <option value="<1.5m">&lt; 1.5m</option>
+        <option value="1.5-3m">1.5m — 3m</option>
+        <option value="3-9m">3m — 9m</option>
+        <option value="9-18m">9m — 18m</option>
+        <option value="18m+">18m +</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Sprinklered</label>
+      <div class="toggle-group">
+        <label class="toggle">
+          <input type="checkbox" id="sprinklered">
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label" id="sprinkler-label">No</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="derived-info" id="derived-info" style="display:none">
+    <div class="tag">
+      <span class="tag-label">Class Group:</span>
+      <span class="tag-value" id="d-group"></span>
+    </div>
+    <div class="tag">
+      <span class="tag-label">Spec 5 Column:</span>
+      <span class="tag-value" id="d-column"></span>
+    </div>
+    <div class="tag">
+      <span class="tag-label">Construction Type:</span>
+      <span class="tag-value" id="d-type"></span>
+    </div>
+    <div class="tag">
+      <span class="tag-label">Spec 5 Tables:</span>
+      <span class="tag-value" id="d-tables"></span>
+    </div>
+  </div>
+
+  <div id="output">
+    <div class="empty-state">
+      <p>Select building class and rise in storeys to generate FRL schedule</p>
+    </div>
+  </div>
+
+  <footer>
+    <p><strong>IMPORTANT NOTICE — NOT PRODUCTION GRADE:</strong> This tool is a draft concept shared for testing, feedback, and concept validation only. It has not been reviewed or verified by a fire safety engineer. Known data corrections may still be required.</p>
+    <p style="margin-top:0.3rem">This tool provides indicative Deemed-to-Satisfy FRL values based on NCC 2022 Volume One, Specification 5 only. It does not address Performance Solutions, state/territory variations, or additional requirements that may apply. Output does not constitute a compliance certificate and <strong>must not be used for compliance purposes</strong>.</p>
+    <p style="margin-top:0.3rem">All FRL schedules must be verified by a suitably qualified fire safety practitioner before use in design, certification, or construction. Where concessions are indicated, these require separate detailed assessment. Data current as of NCC 2022 — verify the applicable NCC edition for your project.</p>
+  </footer>
+
+</div>
+
+<script>
+// =========================================================================
+// NCC 2022 FRL Data Engine (JavaScript port)
+// Mirrors frl_engine.py — class-column-indexed architecture
+// =========================================================================
+
+const CLASS_GROUPS = {
+  "2": "2,3,9", "3": "2,3,9", "9a": "2,3,9", "9b": "2,3,9", "9c": "2,3,9",
+  "5": "5,6,7,8", "6": "5,6,7,8", "7a": "5,6,7,8", "7b": "5,6,7,8", "8": "5,6,7,8"
+};
+
+const SPEC5_CLASS_COLUMNS = {
+  "2": "2,3", "3": "2,3",
+  "5": "5,7a,9", "7a": "5,7a,9", "9a": "5,7a,9", "9b": "5,7a,9", "9c": "5,7a,9",
+  "6": "6",
+  "7b": "7b,8", "8": "7b,8"
+};
+
+const C2D2 = {
+  "4+|2,3,9": "A", "4+|5,6,7,8": "A",
+  "3|2,3,9": "A", "3|5,6,7,8": "B",
+  "2|2,3,9": "B", "2|5,6,7,8": "C",
+  "1|2,3,9": "C", "1|5,6,7,8": "C"
+};
+
+const DISTANCE_5_TO_3 = {
+  "<1.5m": "<1.5m", "1.5-3m": "1.5-3m",
+  "3-9m": "3m+", "9-18m": "3m+", "18m+": "3m+", "3m+": "3m+"
+};
+
+const LOCATION_LABELS = {
+  "shafts": "Fire-resisting lift and stair shafts",
+  "corridors": "Bounding public corridors",
+  "sous": "Between/bounding SOUs",
+  "vent_shafts": "Ventilating shafts",
+  "stair_rated": "Fire-resisting stair shafts"
+};
+
+function frl(s, i, n) { return { structural: s, integrity: i, insulation: n }; }
+
+function frlStr(f) {
+  if (f.structural === 0 && f.integrity === 0 && f.insulation === 0) return "NR";
+  return [f.structural, f.integrity, f.insulation]
+    .map(v => v === 0 ? "\u2014" : String(v)).join("/");
+}
+
+function hasRating(f) {
+  return f.structural > 0 || f.integrity > 0 || f.insulation > 0;
+}
+
+// =========================================================================
+// Type A Tables — S5C11a-g (class-column indexed)
+// =========================================================================
+
+const TYPE_A = {
+  "S5C11a": {
+    element: "External walls \u2014 loadbearing",
+    byDistAndClass: {
+      "<1.5m": {"2,3": frl(90,90,90), "5,7a,9": frl(120,120,120), "6": frl(180,180,180), "7b,8": frl(240,240,240)},
+      "1.5-3m": {"2,3": frl(90,60,60), "5,7a,9": frl(120,90,90), "6": frl(180,180,120), "7b,8": frl(240,240,180)},
+      "3m+": {"2,3": frl(90,60,30), "5,7a,9": frl(120,60,30), "6": frl(180,120,90), "7b,8": frl(240,180,90)}
+    }
+  },
+  "S5C11b": {
+    element: "External walls \u2014 non-loadbearing",
+    byDistAndClass: {
+      "<1.5m": {"2,3": frl(0,90,90), "5,7a,9": frl(0,120,120), "6": frl(0,180,180), "7b,8": frl(0,240,240)},
+      "1.5-3m": {"2,3": frl(0,60,60), "5,7a,9": frl(0,90,90), "6": frl(0,180,120), "7b,8": frl(0,240,180)},
+      "3m+": {"2,3": frl(0,0,0), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)}
+    }
+  },
+  "S5C11c": {
+    element: "External columns",
+    byTypeAndClass: {
+      "loadbearing": {"2,3": frl(90,0,0), "5,7a,9": frl(120,0,0), "6": frl(180,0,0), "7b,8": frl(240,0,0)},
+      "non-loadbearing": {"2,3": frl(0,0,0), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)}
+    },
+    note: "S5C11(1)(d): columns within 1.5m of a window apply S5C11c values"
+  },
+  "S5C11d": {
+    element: "Common walls and fire walls",
+    byClass: {"2,3": frl(90,90,90), "5,7a,9": frl(120,120,120), "6": frl(180,180,180), "7b,8": frl(240,240,240)}
+  },
+  "S5C11e": {
+    element: "Internal walls \u2014 loadbearing (fire-resisting)",
+    byLocAndClass: {
+      "shafts": {"2,3": frl(90,90,90), "5,7a,9": frl(120,120,120), "6": frl(180,120,120), "7b,8": frl(240,120,120)},
+      "corridors": {"2,3": frl(90,90,90), "5,7a,9": frl(120,0,0), "6": frl(180,0,0), "7b,8": frl(240,0,0)},
+      "sous": {"2,3": frl(90,90,90), "5,7a,9": frl(120,0,0), "6": frl(180,0,0), "7b,8": frl(240,0,0)},
+      "vent_shafts": {"2,3": frl(90,90,90), "5,7a,9": frl(120,90,90), "6": frl(180,120,120), "7b,8": frl(240,120,120)}
+    }
+  },
+  "S5C11f": {
+    element: "Internal walls \u2014 non-loadbearing (fire-resisting)",
+    byLocAndClass: {
+      "shafts": {"2,3": frl(0,90,90), "5,7a,9": frl(0,120,120), "6": frl(0,120,120), "7b,8": frl(0,120,120)},
+      "corridors": {"2,3": frl(0,60,60), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)},
+      "sous": {"2,3": frl(0,60,60), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)},
+      "vent_shafts": {"2,3": frl(0,90,90), "5,7a,9": frl(0,90,90), "6": frl(0,120,120), "7b,8": frl(0,120,120)}
+    }
+  },
+  "S5C11g": {
+    element: "Other elements",
+    subElements: {
+      "other_lb": {
+        label: "Other loadbearing members (beams, internal columns)",
+        byClass: {"2,3": frl(90,0,0), "5,7a,9": frl(120,0,0), "6": frl(180,0,0), "7b,8": frl(240,0,0)}
+      },
+      "floors": {
+        label: "Floors",
+        byClass: {"2,3": frl(90,90,90), "5,7a,9": frl(120,120,120), "6": frl(180,180,180), "7b,8": frl(240,240,240)}
+      },
+      "roofs": {
+        label: "Roofs",
+        byClass: {"2,3": frl(90,60,30), "5,7a,9": frl(120,60,30), "6": frl(180,60,30), "7b,8": frl(240,90,60)}
+      }
+    }
+  }
+};
+
+// =========================================================================
+// Type B Tables — S5C21a-g (5 distance brackets, class-column indexed)
+// =========================================================================
+
+const TYPE_B = {
+  "S5C21a": {
+    element: "External walls \u2014 loadbearing",
+    byDistAndClass: {
+      "<1.5m": {"2,3": frl(90,90,90), "5,7a,9": frl(120,120,120), "6": frl(180,180,180), "7b,8": frl(240,240,240)},
+      "1.5-3m": {"2,3": frl(90,60,30), "5,7a,9": frl(120,90,60), "6": frl(180,120,90), "7b,8": frl(240,180,120)},
+      "3-9m": {"2,3": frl(90,30,30), "5,7a,9": frl(120,30,30), "6": frl(180,90,60), "7b,8": frl(240,90,60)},
+      "9-18m": {"2,3": frl(90,30,0), "5,7a,9": frl(120,30,0), "6": frl(180,60,0), "7b,8": frl(240,60,0)},
+      "18m+": {"2,3": frl(0,0,0), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)}
+    }
+  },
+  "S5C21b": {
+    element: "External walls \u2014 non-loadbearing",
+    byDistAndClass: {
+      "<1.5m": {"2,3": frl(0,90,90), "5,7a,9": frl(0,120,120), "6": frl(0,180,180), "7b,8": frl(0,240,240)},
+      "1.5-3m": {"2,3": frl(0,60,30), "5,7a,9": frl(0,90,60), "6": frl(0,120,90), "7b,8": frl(0,180,120)},
+      "3m+": {"2,3": frl(0,0,0), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)}
+    }
+  },
+  "S5C21c": {
+    element: "External columns",
+    byTypeAndClass: {
+      "loadbearing_lt18m": {"2,3": frl(90,0,0), "5,7a,9": frl(120,0,0), "6": frl(180,0,0), "7b,8": frl(240,0,0)},
+      "loadbearing_ge18m": {"2,3": frl(0,0,0), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)},
+      "non-loadbearing": {"2,3": frl(0,0,0), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)}
+    }
+  },
+  "S5C21d": {
+    element: "Common walls and fire walls",
+    byClass: {"2,3": frl(90,90,90), "5,7a,9": frl(120,120,120), "6": frl(180,180,180), "7b,8": frl(240,240,240)}
+  },
+  "S5C21e": {
+    element: "Internal walls \u2014 loadbearing (fire-resisting)",
+    byLocAndClass: {
+      "shafts": {"2,3": frl(90,90,90), "5,7a,9": frl(120,120,120), "6": frl(180,120,120), "7b,8": frl(240,120,120)},
+      "corridors": {"2,3": frl(60,60,60), "5,7a,9": frl(120,0,0), "6": frl(180,0,0), "7b,8": frl(240,0,0)},
+      "sous": {"2,3": frl(60,60,60), "5,7a,9": frl(120,0,0), "6": frl(180,0,0), "7b,8": frl(240,0,0)}
+    }
+  },
+  "S5C21f": {
+    element: "Internal walls \u2014 non-loadbearing (fire-resisting)",
+    byLocAndClass: {
+      "shafts": {"2,3": frl(0,90,90), "5,7a,9": frl(0,120,120), "6": frl(0,120,120), "7b,8": frl(0,120,120)},
+      "corridors": {"2,3": frl(0,60,60), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)},
+      "sous": {"2,3": frl(0,60,60), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)}
+    }
+  },
+  "S5C21g": {
+    element: "Other elements",
+    subElements: {
+      "other_lb": {
+        label: "Other loadbearing members (beams, internal columns)",
+        byClass: {"2,3": frl(60,0,0), "5,7a,9": frl(120,0,0), "6": frl(180,0,0), "7b,8": frl(240,0,0)}
+      },
+      "roofs": {
+        label: "Roofs",
+        byClass: {"2,3": frl(0,0,0), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)}
+      }
+    }
+  }
+};
+
+// =========================================================================
+// Type C Tables — S5C24a-e (class-column indexed)
+// =========================================================================
+
+const TYPE_C = {
+  "S5C24a": {
+    element: "Parts of external walls (loadbearing and non-loadbearing)",
+    byDistAndClass: {
+      "<1.5m": {"2,3": frl(90,90,90), "5,7a,9": frl(90,90,90), "6": frl(90,90,90), "7b,8": frl(90,90,90)},
+      "1.5-3m": {"2,3": frl(0,0,0), "5,7a,9": frl(60,60,60), "6": frl(60,60,60), "7b,8": frl(60,60,60)},
+      "3m+": {"2,3": frl(0,0,0), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)}
+    }
+  },
+  "S5C24b": {
+    element: "External columns",
+    byDistAndClass: {
+      "<1.5m": {"2,3": frl(90,0,0), "5,7a,9": frl(90,0,0), "6": frl(90,0,0), "7b,8": frl(90,0,0)},
+      "1.5-3m": {"2,3": frl(0,0,0), "5,7a,9": frl(60,0,0), "6": frl(60,0,0), "7b,8": frl(60,0,0)},
+      "3m+": {"2,3": frl(0,0,0), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)}
+    }
+  },
+  "S5C24c": {
+    element: "Common walls and fire walls",
+    byClass: {"2,3": frl(90,90,90), "5,7a,9": frl(90,90,90), "6": frl(90,90,90), "7b,8": frl(90,90,90)}
+  },
+  "S5C24d": {
+    element: "Internal walls",
+    byLocAndClass: {
+      "corridors": {"2,3": frl(60,60,60), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)},
+      "sous": {"2,3": frl(60,60,60), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)},
+      "stair_rated": {"2,3": frl(60,60,60), "5,7a,9": frl(60,60,60), "6": frl(60,60,60), "7b,8": frl(60,60,60)}
+    }
+  },
+  "S5C24e": {
+    element: "Roofs",
+    byClass: {"2,3": frl(0,0,0), "5,7a,9": frl(0,0,0), "6": frl(0,0,0), "7b,8": frl(0,0,0)},
+    note: "No FRL required for roofs in Type C construction"
+  }
+};
+
+const JUDGEMENT_BOUNDARIES = [
+  "Sprinkler concessions may reduce these values \u2014 requires assessment per applicable clauses",
+  "Performance Solution may be required for non-standard configurations \u2014 see C1V4",
+  "State/territory variations may apply \u2014 check local amendments",
+  "Carpark-specific rules may override general FRL requirements",
+  "Fire-source feature distance must be determined by measurement or fire engineer assessment",
+  "Deemed-to-Satisfy provisions only \u2014 Performance Solutions assessed separately"
+];
+
+// =========================================================================
+// Lookup engine
+// =========================================================================
+
+function getConstructionType(bc, rise) {
+  const group = CLASS_GROUPS[bc];
+  const bracket = rise >= 4 ? "4+" : String(rise);
+  return C2D2[bracket + "|" + group];
+}
+
+function getSpec5Column(bc) {
+  return SPEC5_CLASS_COLUMNS[bc];
+}
+
+function buildChain(bc, rise, type, tableRef, detail) {
+  const group = CLASS_GROUPS[bc];
+  return [
+    "NCC 2022 Vol 1",
+    "C2D2: Class " + bc.toUpperCase() + " (group " + group + "), rise " + rise + " \u2192 Type " + type,
+    "Spec 5",
+    "Table " + tableRef,
+    detail
+  ];
+}
+
+function lookupTypeA(bc, rise, dist, sprinklered) {
+  const results = [];
+  const col = getSpec5Column(bc);
+  const dist3 = DISTANCE_5_TO_3[dist] || dist;
+
+  // S5C11a
+  const a = TYPE_A["S5C11a"];
+  results.push({
+    element: a.element, frl: a.byDistAndClass[dist3][col], tableRef: "S5C11a", location: "",
+    chain: buildChain(bc, rise, "A", "S5C11a", "Column " + col + ", distance " + dist3 + " \u2192 " + frlStr(a.byDistAndClass[dist3][col])),
+    concessions: []
+  });
+
+  // S5C11b
+  const b = TYPE_A["S5C11b"];
+  results.push({
+    element: b.element, frl: b.byDistAndClass[dist3][col], tableRef: "S5C11b", location: "",
+    chain: buildChain(bc, rise, "A", "S5C11b", "Column " + col + ", distance " + dist3 + " \u2192 " + frlStr(b.byDistAndClass[dist3][col])),
+    concessions: []
+  });
+
+  // S5C11c — loadbearing columns only
+  const c = TYPE_A["S5C11c"];
+  const cFrl = c.byTypeAndClass["loadbearing"][col];
+  results.push({
+    element: "External columns \u2014 loadbearing", frl: cFrl, tableRef: "S5C11c", location: "",
+    chain: buildChain(bc, rise, "A", "S5C11c", "Column " + col + ", loadbearing \u2192 " + frlStr(cFrl)),
+    concessions: [], notes: [c.note]
+  });
+
+  // S5C11d
+  const d = TYPE_A["S5C11d"];
+  results.push({
+    element: d.element, frl: d.byClass[col], tableRef: "S5C11d", location: "",
+    chain: buildChain(bc, rise, "A", "S5C11d", "Column " + col + " \u2192 " + frlStr(d.byClass[col])),
+    concessions: []
+  });
+
+  // S5C11e — multi-row
+  const e = TYPE_A["S5C11e"];
+  for (const [locKey, classDict] of Object.entries(e.byLocAndClass)) {
+    const locLabel = LOCATION_LABELS[locKey] || locKey;
+    const f = classDict[col];
+    results.push({
+      element: e.element + " \u2014 " + locLabel, frl: f, tableRef: "S5C11e", location: locKey,
+      chain: buildChain(bc, rise, "A", "S5C11e", "Column " + col + ", " + locLabel + " \u2192 " + frlStr(f)),
+      concessions: ["Top storey concession (S5C17): internal elements in top storey below unrated roof may have reduced FRL"]
+    });
+  }
+
+  // S5C11f — multi-row
+  const ff = TYPE_A["S5C11f"];
+  for (const [locKey, classDict] of Object.entries(ff.byLocAndClass)) {
+    const locLabel = LOCATION_LABELS[locKey] || locKey;
+    const fv = classDict[col];
+    results.push({
+      element: ff.element + " \u2014 " + locLabel, frl: fv, tableRef: "S5C11f", location: locKey,
+      chain: buildChain(bc, rise, "A", "S5C11f", "Column " + col + ", " + locLabel + " \u2192 " + frlStr(fv)),
+      concessions: []
+    });
+  }
+
+  // S5C11g — sub-elements
+  const g = TYPE_A["S5C11g"];
+  for (const [subKey, subData] of Object.entries(g.subElements)) {
+    const fv = subData.byClass[col];
+    const conc = [];
+    if (subKey === "roofs") {
+      if (sprinklered) conc.push("Roof concession (S5C15): building is sprinklered");
+      if (rise <= 3) conc.push("Roof concession (S5C15): rise \u2264 3");
+      if (bc === "2" || bc === "3") conc.push("Roof concession (S5C15): Class " + bc + " building");
+    }
+    if (subKey === "other_lb") {
+      conc.push("Top storey concession (S5C17): internal elements in top storey below unrated roof may have reduced FRL");
+    }
+    results.push({
+      element: subData.label, frl: fv, tableRef: "S5C11g", location: subKey,
+      chain: buildChain(bc, rise, "A", "S5C11g", "Column " + col + ", " + subData.label + " \u2192 " + frlStr(fv)),
+      concessions: conc
+    });
+  }
+
+  return results;
+}
+
+function lookupTypeB(bc, rise, dist, sprinklered) {
+  const results = [];
+  const col = getSpec5Column(bc);
+  const dist3 = DISTANCE_5_TO_3[dist] || dist;
+
+  // S5C21a — 5 distance brackets
+  const a = TYPE_B["S5C21a"];
+  const distA = a.byDistAndClass[dist] ? dist : (dist === "3m+" ? "3-9m" : dist);
+  results.push({
+    element: a.element, frl: a.byDistAndClass[distA][col], tableRef: "S5C21a", location: "",
+    chain: buildChain(bc, rise, "B", "S5C21a", "Column " + col + ", distance " + distA + " \u2192 " + frlStr(a.byDistAndClass[distA][col])),
+    concessions: []
+  });
+
+  // S5C21b — 3 distance brackets
+  const b = TYPE_B["S5C21b"];
+  results.push({
+    element: b.element, frl: b.byDistAndClass[dist3][col], tableRef: "S5C21b", location: "",
+    chain: buildChain(bc, rise, "B", "S5C21b", "Column " + col + ", distance " + dist3 + " \u2192 " + frlStr(b.byDistAndClass[dist3][col])),
+    concessions: []
+  });
+
+  // S5C21c — by type
+  const c = TYPE_B["S5C21c"];
+  const colType = dist === "18m+" ? "loadbearing_ge18m" : "loadbearing_lt18m";
+  results.push({
+    element: c.element, frl: c.byTypeAndClass[colType][col], tableRef: "S5C21c", location: "",
+    chain: buildChain(bc, rise, "B", "S5C21c", "Column " + col + ", " + colType + " \u2192 " + frlStr(c.byTypeAndClass[colType][col])),
+    concessions: []
+  });
+
+  // S5C21d
+  const d = TYPE_B["S5C21d"];
+  results.push({
+    element: d.element, frl: d.byClass[col], tableRef: "S5C21d", location: "",
+    chain: buildChain(bc, rise, "B", "S5C21d", "Column " + col + " \u2192 " + frlStr(d.byClass[col])),
+    concessions: []
+  });
+
+  // S5C21e — multi-row
+  const e = TYPE_B["S5C21e"];
+  for (const [locKey, classDict] of Object.entries(e.byLocAndClass)) {
+    const locLabel = LOCATION_LABELS[locKey] || locKey;
+    results.push({
+      element: e.element + " \u2014 " + locLabel, frl: classDict[col], tableRef: "S5C21e", location: locKey,
+      chain: buildChain(bc, rise, "B", "S5C21e", "Column " + col + ", " + locLabel + " \u2192 " + frlStr(classDict[col])),
+      concessions: []
+    });
+  }
+
+  // S5C21f — multi-row
+  const f = TYPE_B["S5C21f"];
+  for (const [locKey, classDict] of Object.entries(f.byLocAndClass)) {
+    const locLabel = LOCATION_LABELS[locKey] || locKey;
+    results.push({
+      element: f.element + " \u2014 " + locLabel, frl: classDict[col], tableRef: "S5C21f", location: locKey,
+      chain: buildChain(bc, rise, "B", "S5C21f", "Column " + col + ", " + locLabel + " \u2192 " + frlStr(classDict[col])),
+      concessions: []
+    });
+  }
+
+  // S5C21g — sub-elements
+  const g = TYPE_B["S5C21g"];
+  for (const [subKey, subData] of Object.entries(g.subElements)) {
+    results.push({
+      element: subData.label, frl: subData.byClass[col], tableRef: "S5C21g", location: subKey,
+      chain: buildChain(bc, rise, "B", "S5C21g", "Column " + col + ", " + subData.label + " \u2192 " + frlStr(subData.byClass[col])),
+      concessions: []
+    });
+  }
+
+  return results;
+}
+
+function lookupTypeC(bc, rise, dist, sprinklered) {
+  const results = [];
+  const col = getSpec5Column(bc);
+  const dist3 = DISTANCE_5_TO_3[dist] || dist;
+
+  // S5C24a
+  const a = TYPE_C["S5C24a"];
+  results.push({
+    element: a.element, frl: a.byDistAndClass[dist3][col], tableRef: "S5C24a", location: "",
+    chain: buildChain(bc, rise, "C", "S5C24a", "Column " + col + ", distance " + dist3 + " \u2192 " + frlStr(a.byDistAndClass[dist3][col])),
+    concessions: []
+  });
+
+  // S5C24b
+  const b = TYPE_C["S5C24b"];
+  results.push({
+    element: b.element, frl: b.byDistAndClass[dist3][col], tableRef: "S5C24b", location: "",
+    chain: buildChain(bc, rise, "C", "S5C24b", "Column " + col + ", distance " + dist3 + " \u2192 " + frlStr(b.byDistAndClass[dist3][col])),
+    concessions: []
+  });
+
+  // S5C24c
+  const c = TYPE_C["S5C24c"];
+  results.push({
+    element: c.element, frl: c.byClass[col], tableRef: "S5C24c", location: "",
+    chain: buildChain(bc, rise, "C", "S5C24c", "Column " + col + " \u2192 " + frlStr(c.byClass[col])),
+    concessions: []
+  });
+
+  // S5C24d — multi-row
+  const d = TYPE_C["S5C24d"];
+  for (const [locKey, classDict] of Object.entries(d.byLocAndClass)) {
+    const locLabel = LOCATION_LABELS[locKey] || locKey;
+    results.push({
+      element: d.element + " \u2014 " + locLabel, frl: classDict[col], tableRef: "S5C24d", location: locKey,
+      chain: buildChain(bc, rise, "C", "S5C24d", "Column " + col + ", " + locLabel + " \u2192 " + frlStr(classDict[col])),
+      concessions: []
+    });
+  }
+
+  // S5C24e
+  const e = TYPE_C["S5C24e"];
+  results.push({
+    element: e.element, frl: e.byClass[col], tableRef: "S5C24e", location: "",
+    chain: buildChain(bc, rise, "C", "S5C24e", "Column " + col + " \u2192 " + frlStr(e.byClass[col])),
+    concessions: [], notes: [e.note]
+  });
+
+  return results;
+}
+
+function getGlobalNotes(bc, type, sprinklered) {
+  const notes = [];
+  notes.push("Floor concession (S5C12): floors on ground or within a sole-occupancy unit may not require the tabulated FRL");
+  if ((bc === "2" || bc === "3") && sprinklered) {
+    if (type === "A") notes.push("Timber concession (S5C20): Class " + bc + " sprinklered buildings may have reduced FRL for timber elements");
+    if (type === "B") notes.push("Timber concession (S5C23): Class " + bc + " sprinklered buildings may have reduced FRL for timber elements");
+  }
+  const cpClause = { A: "S5C19", B: "S5C22", C: "S5C25" }[type];
+  notes.push("Carpark concession (" + cpClause + "): open-deck carparks may have separate FRL schedules");
+  return notes;
+}
+
+function getTablePrefix(type) {
+  return { A: "S5C11", B: "S5C21", C: "S5C24" }[type];
+}
+
+// =========================================================================
+// UI
+// =========================================================================
+
+const classSelect = document.getElementById("building-class");
+const riseInput = document.getElementById("rise");
+const distSelect = document.getElementById("distance");
+const sprinklerCheck = document.getElementById("sprinklered");
+const sprinklerLabel = document.getElementById("sprinkler-label");
+const derivedInfo = document.getElementById("derived-info");
+const output = document.getElementById("output");
+
+// Version stamp
+const now = new Date();
+document.getElementById("version-stamp").textContent =
+  "v1.0-draft | NCC 2022 | Generated " + now.toISOString().split("T")[0];
+
+// Populate class dropdown
+Object.keys(CLASS_GROUPS).sort((a, b) => {
+  const na = parseFloat(a), nb = parseFloat(b);
+  if (na !== nb) return na - nb;
+  return a.localeCompare(b);
+}).forEach(c => {
+  const opt = document.createElement("option");
+  opt.value = c;
+  opt.textContent = "Class " + c.toUpperCase();
+  classSelect.appendChild(opt);
+});
+
+sprinklerCheck.addEventListener("change", () => {
+  sprinklerLabel.textContent = sprinklerCheck.checked ? "Yes" : "No";
+  update();
+});
+
+classSelect.addEventListener("change", update);
+riseInput.addEventListener("input", update);
+distSelect.addEventListener("change", update);
+
+function update() {
+  const bc = classSelect.value;
+  const rise = parseInt(riseInput.value, 10);
+  const dist = distSelect.value;
+  const sprinklered = sprinklerCheck.checked;
+
+  if (!bc || !rise || rise < 1) {
+    derivedInfo.style.display = "none";
+    output.innerHTML = '<div class="empty-state"><p>Select building class and rise in storeys to generate FRL schedule</p></div>';
+    return;
+  }
+
+  const group = CLASS_GROUPS[bc];
+  const col = getSpec5Column(bc);
+  const type = getConstructionType(bc, rise);
+
+  // Derived info bar
+  derivedInfo.style.display = "flex";
+  document.getElementById("d-group").textContent = group;
+  document.getElementById("d-column").textContent = col;
+  document.getElementById("d-type").textContent = type;
+  document.getElementById("d-tables").textContent = getTablePrefix(type) + " series";
+
+  // Lookup
+  const lookupFn = { A: lookupTypeA, B: lookupTypeB, C: lookupTypeC }[type];
+  const results = lookupFn(bc, rise, dist, sprinklered);
+  const globalNotes = getGlobalNotes(bc, type, sprinklered);
+
+  // Distance note for Type A/C with extended brackets
+  let distNote = "";
+  if (type !== "B" && (dist === "3-9m" || dist === "9-18m" || dist === "18m+")) {
+    distNote = "Type " + type + " tables use 3 distance brackets. Distances beyond 3m map to the 3m+ column.";
+  }
+
+  render(results, globalNotes, distNote);
+}
+
+function render(results, globalNotes, distNote) {
+  let html = '';
+
+  // FRL table with grouping
+  html += '<div class="results-section"><h2>FRL Schedule<span class="results-label">Reference Values \u2014 Not a Compliance Certificate</span></h2>';
+
+  if (distNote) {
+    html += '<div style="font-size:0.78rem;color:var(--text-dim);margin-bottom:0.8rem;padding:0.4rem 0.6rem;background:var(--surface);border-radius:4px;border:1px solid var(--border)">' + esc(distNote) + '</div>';
+  }
+
+  html += '<table class="frl-table"><thead><tr>';
+  html += '<th>Building Element</th><th>FRL</th><th>Table Ref</th>';
+  html += '</tr></thead><tbody>';
+
+  // Group results by tableRef for multi-row display
+  let currentTableRef = "";
+  const TABLE_ELEMENT_LABELS = {
+    "S5C11e": "S5C11e \u2014 Loadbearing internal walls",
+    "S5C11f": "S5C11f \u2014 Non-loadbearing internal walls",
+    "S5C21e": "S5C21e \u2014 Loadbearing internal walls",
+    "S5C21f": "S5C21f \u2014 Non-loadbearing internal walls",
+    "S5C24d": "S5C24d \u2014 Internal walls"
+  };
+
+  for (const r of results) {
+    const isMultiRow = r.location && TABLE_ELEMENT_LABELS[r.tableRef];
+
+    // Insert group header for multi-row tables
+    if (isMultiRow && r.tableRef !== currentTableRef) {
+      html += '<tr class="table-group-header"><td colspan="3">' + esc(TABLE_ELEMENT_LABELS[r.tableRef]) + '</td></tr>';
+    }
+    currentTableRef = r.tableRef;
+
+    const rated = hasRating(r.frl);
+    const displayStr = frlStr(r.frl);
+    const rowClass = isMultiRow ? ' class="location-row"' : '';
+
+    html += '<tr' + rowClass + '>';
+
+    // Element name — for location rows, show just the location label
+    let elemDisplay = r.element;
+    if (isMultiRow) {
+      const locLabel = LOCATION_LABELS[r.location] || r.location;
+      elemDisplay = locLabel;
+    }
+
+    html += '<td>' + esc(elemDisplay);
+    if (r.concessions && r.concessions.length > 0) {
+      for (const c of r.concessions) {
+        html += '<div class="concession-tag">' + esc(c) + '</div>';
+      }
+    }
+    html += '</td>';
+
+    html += '<td><span class="frl-value ' + (rated ? 'has-rating' : 'no-rating') + '">' + displayStr + '</span></td>';
+    html += '<td><span style="font-family:var(--mono);font-size:0.8rem;color:var(--accent-light)">' + esc(r.tableRef) + '</span>';
+    html += '<div class="clause-chain">';
+    html += r.chain.map(s => '<span class="chain-step">' + esc(s) + '</span>').join('<span class="chain-arrow">\u2192</span>');
+    html += '</div></td>';
+    html += '</tr>';
+  }
+
+  html += '</tbody></table></div>';
+
+  // Concession notes
+  if (globalNotes.length > 0) {
+    html += '<div class="notes-section"><h3>Applicable Concessions</h3><ul>';
+    for (const n of globalNotes) {
+      html += '<li>' + esc(n) + '</li>';
+    }
+    html += '</ul></div>';
+  }
+
+  // Judgement boundaries
+  html += '<div class="judgement-section"><h3>Judgement Boundaries</h3>';
+  html += '<ul>';
+  for (const j of JUDGEMENT_BOUNDARIES) {
+    html += '<li>' + esc(j) + '</li>';
+  }
+  html += '</ul></div>';
+
+  output.innerHTML = html;
+}
+
+function esc(s) {
+  const d = document.createElement("div");
+  d.textContent = s;
+  return d.innerHTML;
+}
+</script>
+</body>
+</html>
