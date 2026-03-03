@@ -409,6 +409,82 @@
     padding: 0.2rem 0;
   }
 
+  /* About panel */
+  .about-panel {
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+  }
+
+  .about-panel summary {
+    padding: 0.7rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-light);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .about-panel summary::-webkit-details-marker { display: none; }
+
+  .about-panel summary::before {
+    content: '\25B6';
+    font-size: 0.6rem;
+    transition: transform 0.2s;
+    color: var(--text-dim);
+  }
+
+  .about-panel[open] summary::before { transform: rotate(90deg); }
+
+  .about-panel .about-content {
+    padding: 0 1.2rem 1.2rem;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--text-dim);
+  }
+
+  .about-panel .about-content h3 {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .about-panel .about-content h3:first-child { margin-top: 0; }
+
+  .about-panel .about-content p { margin-bottom: 0.5rem; }
+
+  .about-panel .about-content ul {
+    margin: 0.3rem 0 0.6rem 1.2rem;
+    padding: 0;
+  }
+
+  .about-panel .about-content li {
+    padding: 0.15rem 0;
+  }
+
+  .about-panel .about-content .limit-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--warning);
+    background: rgba(245, 166, 35, 0.1);
+    border: 1px solid rgba(245, 166, 35, 0.25);
+    border-radius: 3px;
+    padding: 0.1rem 0.4rem;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+  }
+
   /* Empty state */
   .empty-state {
     text-align: center;
@@ -476,6 +552,33 @@
     <h1><span class="h1-highlight">FRL</span> Navigator</h1>
     <p>NCC 2022 Deemed-to-Satisfy fire resistance levels — Specification 5, Volume One</p>
   </header>
+
+  <details class="about-panel">
+    <summary>About this tool &amp; methodology</summary>
+    <div class="about-content">
+      <h3>What this tool does</h3>
+      <p>FRL Navigator looks up indicative Deemed-to-Satisfy (DtS) Fire Resistance Levels from NCC 2022 Volume One, Specification 5. Given a building class, rise in storeys, fire-source feature distance, and sprinkler status, it returns the required FRL for each building element — walls, columns, floors, and roofs — along with the clause chain showing how each value was derived.</p>
+      <p>The intent is to reduce the time spent cross-referencing C2D2 construction type determination, class-column mapping, and the Spec 5 table series. It does not replace engineering judgement — it automates the table lookup step only.</p>
+
+      <h3>What it does not do</h3>
+      <ul>
+        <li>Does not calculate or apply concession reductions — concessions are flagged but the reduced FRL values are not computed</li>
+        <li>Does not address Performance Solutions (C1V4) — only DtS provisions are covered</li>
+        <li>Does not account for state or territory variations to the NCC</li>
+        <li>Does not cover Volume Two (Class 1 and 10 buildings) or BCA provisions outside Spec 5</li>
+        <li>Does not assess compartmentation, separation distances between buildings on the same allotment, or fire-source feature measurement</li>
+      </ul>
+
+      <h3>Methodology limitations</h3>
+      <ul>
+        <li><span class="limit-tag">Data</span> FRL values were manually transcribed from NCC 2022 Spec 5 tables — transcription errors may exist and have not been independently verified</li>
+        <li><span class="limit-tag">C2D2</span> Construction type (A, B, or C) is determined using a simplified class-group and rise-in-storeys lookup — this mirrors C2D2 but does not handle every edge case or special provision</li>
+        <li><span class="limit-tag">Distance</span> Type A and C tables use 3 distance brackets; Type B uses 5. When a 5-bracket distance is selected for Type A/C, it is mapped to the nearest 3-bracket equivalent (distances &ge; 3m all map to &ldquo;3m+&rdquo;)</li>
+        <li><span class="limit-tag">Sprinklers</span> Sprinkler concessions (e.g. S5C15, S5C20, S5C23) are noted but not automatically applied — the base FRL is shown, not the concession-reduced value</li>
+        <li><span class="limit-tag">Scope</span> Only covers elements listed in Spec 5 tables — ancillary requirements (e.g. doorsets, penetrations, service installations, spandrels) are not included</li>
+      </ul>
+    </div>
+  </details>
 
   <div class="form-grid">
     <div class="form-group">
